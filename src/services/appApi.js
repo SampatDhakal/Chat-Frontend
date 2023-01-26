@@ -12,7 +12,7 @@ const appApi = createApi({
         // creating the user
         signupUser: builder.mutation({
             query: (user) => ({
-                url: "https://chat-app-api-nofc.onrender.com/users",
+                url: "/users",
                 method: "POST",
                 body: user,
             }),
@@ -21,7 +21,7 @@ const appApi = createApi({
         // login
         loginUser: builder.mutation({
             query: (user) => ({
-                url: "https://chat-app-api-nofc.onrender.com/users/login",
+                url: "/users/login",
                 method: "POST",
                 body: user,
             }),
@@ -31,7 +31,7 @@ const appApi = createApi({
 
         logoutUser: builder.mutation({
             query: (payload) => ({
-                url: "https://chat-app-api-nofc.onrender.com/logout",
+                url: "/logout",
                 method: "DELETE",
                 body: payload,
             }),
