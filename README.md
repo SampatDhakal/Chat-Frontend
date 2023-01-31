@@ -52,6 +52,12 @@ This is a real-time chat application built using MongoDB, Node.js, React, and Ex
 - Responsive user interface using React
 - Easy-to-use API built with Express
 
+## ER Diagram
+![erd](https://user-images.githubusercontent.com/48426525/215714103-fffb6891-aabd-4ec0-8a22-54a691cba483.png)
+
+## UseCase Diagram
+![usecase for chat app](https://user-images.githubusercontent.com/48426525/215714130-be4d8220-e79b-4117-a7e1-a13f694676c7.png)
+
 ## Known issues
 - Currently, there is no password reset functionality.
 
@@ -62,3 +68,4 @@ This is a real-time chat application built using MongoDB, Node.js, React, and Ex
 - React.js documentation
 - Express documentation
 - MongoDB documentation
+
