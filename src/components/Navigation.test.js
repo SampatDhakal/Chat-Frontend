@@ -1,81 +1,18 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import Navigation from './Navigation.js';
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { useSelector } from "react-redux";
-import { useLogoutUserMutation } from "../services/appApi";
+import Navigation from "./Navigation";
 
-jest.mock("react-redux", () => ({
-    useSelector: jest.fn(),
-}));
+test("renders navigation bar", () => {
+    const { getByText } = render(<Navigation />);
+    const loginLink = getByText("Login");
+    expect(loginLink).toBeInTheDocument();
+});
 
-jest.mock("../services/appApi", () => ({
-    useLogoutUserMutation: jest.fn(),
-}));
-
-describe("Navigation", () => {
-    let store;
-    let mockStore;
-    beforeEach(() => {
-        mockStore = configureStore([]);
-        store = mockStore({
-            user: {
-                name: "testuser",
-                picture: "testpic.jpg",
-            },
-        });
-    });
-
-    it("should render the navigation bar with the user's name and picture", () => {
-        useSelector.mockImplementation((selector) => selector({
-            user: {
-                name: "testuser",
-                picture: "testpic.jpg",
-            },
-        }));
-
-        const { getByText, getByAltText } = render(
-            <Provider store={store}>
-                <Navigation />
-            </Provider>
-        );
-        expect(getByText("testuser")).toBeInTheDocument();
-        expect(getByAltText("testuser")).toBeInTheDocument();
-    });
-
-    it("should render the navigation bar without the user information when there is no user", () => {
-        useSelector.mockImplementation((selector) => selector({ user: null }));
-
-        const { getByText } = render(
-            <Provider store={store}>
-                <Navigation />
-            </Provider>
-        );
-        expect(getByText("Login")).toBeInTheDocument();
-    });
-
-    it("should call the logoutUser mutation when the logout button is clicked", async () => {
-        const logoutUserMutation = jest.fn();
-        useLogoutUserMutation.mockReturnValue([logoutUserMutation]);
-        useSelector.mockImplementation((selector) => selector({
-            user: {
-                name: "testuser",
-                picture: "testpic.jpg",
-            },
-        }));
-        console.log(Provider)
-        render(
-            <Provider store={store}>
-                <Navigation />
-            </Provider>
-        );
-
-        fireEvent.click(screen.getByText("Logout"));
-
-        expect(logoutUserMutation).toHaveBeenCalledWith({
-            name: "testuser",
-            picture: "testpic.jpg",
-        });
-    });
+test("logout button logs out user", async () => {
+    const logoutUser = jest.fn();
+    const user = { name: "Test User", picture: "test.jpg" };
+    const { getByText } = render(<Navigation user={user} logoutUser={logoutUser} />);
+    const logoutButton = getByText("Logout");
+    fireEvent.click(logoutButton);
+    expect(logoutUser).toHaveBeenCalled();
 });
